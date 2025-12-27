@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock hub</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="setup-screen" class="setup-container">
+        <div class="setup-box">
+            <h2><i class="fas fa-laptop-code"></i> Exam Setup</h2>
+            <div class="input-group">
+                <label>1. Question Paper (PDF):</label>
+                <input type="file" id="pdf-question" accept="application/pdf">
+            </div>
+            <div class="input-group">
+                <label>2. Answer Key (Excel) <small>(Optional)</small>:</label>
+                <input type="file" id="excel-upload" accept=".xlsx, .xls, .csv">
+            </div>
+            <div class="input-group">
+                <label>3. Total Questions:</label>
+                <input type="number" id="total-qs" value="65">
+            </div>
+            <div class="input-group">
+                <label>4. Time (Minutes):</label>
+                <input type="number" id="exam-duration" value="180">
+            </div>
+            <button class="start-btn" onclick="startTest()">Start Exam</button>
+        </div>
+    </div>
+
+    <div id="test-screen" class="main-container hidden">
+        
+        <div class="top-header">
+            <span>Assessment Examination Center</span>
+        </div>
+
+        <div class="info-bar">
+            <div class="exam-title">
+                <span class="exam-name">GATE / CSIR MOCK TEST 2025</span>
+            </div>
+            <div class="timer-section">
+                <span>Time Left : <span id="timer" class="timer-text">00:00:00</span></span>
+            </div>
+        </div>
+
+        <div class="section-bar">
+            <div class="tabs">
+                <div class="tab active">Paper I <i class="fas fa-info-circle"></i></div>
+                <div class="tab">Section B <i class="fas fa-info-circle"></i></div>
+            </div>
+        </div>
+
+        <div class="workspace">
+            
+            <div class="left-pane">
+                <div class="pdf-wrapper">
+                    <iframe id="pdf-viewer" src=""></iframe>
+                </div>
+
+                <div class="question-control-area">
+                    <div class="question-header-strip">
+                        <span>Question No. <span id="current-q-num">1</span></span>
+                        <span class="marks-info">Marks for correct answer: 1 | Negative Marks: 0</span>
+                    </div>
+
+                    <div class="options-container">
+                        <span class="opt-label">Select Option:</span>
+                        <label class="opt-radio"><input type="radio" name="option" value="A"> <span>A</span></label>
+                        <label class="opt-radio"><input type="radio" name="option" value="B"> <span>B</span></label>
+                        <label class="opt-radio"><input type="radio" name="option" value="C"> <span>C</span></label>
+                        <label class="opt-radio"><input type="radio" name="option" value="D"> <span>D</span></label>
+                    </div>
+
+                    <div class="action-buttons">
+                        <div class="left-actions">
+                            <button class="btn btn-review" onclick="markForReview()">Mark for Review & Next</button>
+                            <button class="btn btn-clear" onclick="clearResponse()">Clear Response</button>
+                        </div>
+                        <button class="btn btn-save" onclick="saveAndNext()">Save & Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-pane">
+                
+                <div class="profile-section">
+                    <img src="https://www.w3schools.com/howto/img_avatar.png" class="avatar" alt="User">
+                    <div class="user-name">Candidate Name</div>
+                </div>
+
+                <div class="legend-grid">
+                    <div class="legend-item"><span class="badge answered">0</span> Answered</div>
+                    <div class="legend-item"><span class="badge not-answered">0</span> Not Answered</div>
+                    <div class="legend-item"><span class="badge not-visited">0</span> Not Visited</div>
+                    <div class="legend-item"><span class="badge marked">0</span> Marked for Review</div>
+                    <div class="legend-item full-width"><span class="badge marked-ans">0</span> Answered & Marked for Review (will be considered for evaluation)</div>
+                </div>
+
+                <div class="sidebar-section-header">
+                    Question Palette
+                </div>
+
+                <div class="palette-wrapper">
+                    <div class="palette-label">Choose a Question</div>
+                    <div id="question-grid" class="grid-container">
+                        </div>
+                </div>
+
+                <div class="submit-area">
+                    <button class="btn-submit" onclick="submitTest()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
