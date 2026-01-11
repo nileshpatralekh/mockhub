@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
     <div id="setup-screen" class="setup-container">
@@ -34,7 +36,7 @@
     </div>
 
     <div id="test-screen" class="main-container hidden">
-        
+
         <div class="top-header">
             <span>Assessment Examination Center</span>
         </div>
@@ -48,15 +50,13 @@
             </div>
         </div>
 
-        <div class="section-bar">
-            <div class="tabs">
-                <div class="tab active">Paper I <i class="fas fa-info-circle"></i></div>
-                <div class="tab">Section B <i class="fas fa-info-circle"></i></div>
-            </div>
+        <div class="calculator-bar">
+            <button class="calc-btn" onclick="toggleCalculator()"><i class="fas fa-calculator"></i> Scientific
+                Calculator</button>
         </div>
 
         <div class="workspace">
-            
+
             <div class="left-pane">
                 <div class="pdf-wrapper">
                     <iframe id="pdf-viewer" src=""></iframe>
@@ -87,7 +87,7 @@
             </div>
 
             <div class="right-pane">
-                
+
                 <div class="profile-section">
                     <img src="https://www.w3schools.com/howto/img_avatar.png" class="avatar" alt="User">
                     <div class="user-name">Candidate Name</div>
@@ -98,7 +98,8 @@
                     <div class="legend-item"><span class="badge not-answered">0</span> Not Answered</div>
                     <div class="legend-item"><span class="badge not-visited">0</span> Not Visited</div>
                     <div class="legend-item"><span class="badge marked">0</span> Marked for Review</div>
-                    <div class="legend-item full-width"><span class="badge marked-ans">0</span> Answered & Marked for Review (will be considered for evaluation)</div>
+                    <div class="legend-item full-width"><span class="badge marked-ans">0</span> Answered & Marked for
+                        Review (will be considered for evaluation)</div>
                 </div>
 
                 <div class="sidebar-section-header">
@@ -108,7 +109,7 @@
                 <div class="palette-wrapper">
                     <div class="palette-label">Choose a Question</div>
                     <div id="question-grid" class="grid-container">
-                        </div>
+                    </div>
                 </div>
 
                 <div class="submit-area">
@@ -118,6 +119,165 @@
         </div>
     </div>
 
+    <div id="review-screen" class="main-container hidden">
+        <div class="top-header">
+            <span>Test Analysis & Review</span>
+        </div>
+
+        <div class="review-container">
+            <div class="review-summary">
+                <h3>Performance Summary</h3>
+                <div class="summary-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Total Questions</span>
+                        <span id="review-total" class="stat-val">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Attempted</span>
+                        <span id="review-attempted" class="stat-val">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Correct</span>
+                        <span id="review-correct" class="stat-val">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Wrong</span>
+                        <span id="review-wrong" class="stat-val">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Score</span>
+                        <span id="review-score" class="stat-val">0</span>
+                    </div>
+                </div>
+                <div class="restart-area">
+                    <button class="btn btn-save" onclick="location.reload()">Back to Home / Restart</button>
+                    <!-- Future: Export PDF? -->
+                </div>
+            </div>
+
+            <div class="review-details">
+                <h3>Detailed Question Analysis</h3>
+                <div class="table-responsive">
+                    <table class="review-table">
+                        <thead>
+                            <tr>
+                                <th>Q.No</th>
+                                <th>Your Answer</th>
+                                <th>Correct Answer</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="review-table-body">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Draggable Calculator -->
+    <div id="calculator" class="calculator hidden">
+        <div id="calc-header" class="calc-header">
+            <span>Scientific Calculator</span>
+            <span class="close-calc" onclick="toggleCalculator()">X</span>
+        </div>
+        <div class="calc-body">
+            <div id="keyPad" class="ui-widget-content calc_container">
+                <!-- Two Displays -->
+                <input type="text" id="keyPad_UserInput1" class="keyPad_TextBox1" readonly>
+                <input type="text" id="keyPad_UserInput" class="keyPad_TextBox" maxlength="30" readonly>
+
+                <div class="calc-keys-tcs">
+                    <!-- Row 1 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('deg')">Deg</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('rad')">Rad</button>
+                        <button class="keyPad_btnMemoryOp" onclick="calcOp('MC')">MC</button>
+                        <button class="keyPad_btnMemoryOp" onclick="calcOp('MR')">MR</button>
+                        <button class="keyPad_btnMemoryOp" onclick="calcOp('MS')">MS</button>
+                        <button class="keyPad_btnMemoryOp" onclick="calcOp('M+')">M+</button>
+                        <button class="keyPad_btnMemoryOp" onclick="calcOp('M-')">M-</button>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('sin')">sin</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('cos')">cos</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('tan')">tan</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('log')">log</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('ln')">ln</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('inv')">1/x</button>
+                        <button class="keyPad_btnCommand" onclick="calcOp('C')">C</button>
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('asin')">sin⁻¹</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('acos')">cos⁻¹</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('atan')">tan⁻¹</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('exp')">e</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('pow10')">10ˣ</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('mod')">mod</button>
+                        <button class="keyPad_btnCommand" onclick="calcOp('AC')">AC</button>
+                    </div>
+                    <!-- Row 4 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('sinh')">sinh</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('cosh')">cosh</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('tanh')">tanh</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('pi')">π</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('fact')">n!</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('(')">(</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp(')')">)</button>
+                    </div>
+
+                    <!-- Row 5 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnNumeric" onclick="calcInput('7')">7</button>
+                        <button class="keyPad_btnNumeric" onclick="calcInput('8')">8</button>
+                        <button class="keyPad_btnNumeric" onclick="calcInput('9')">9</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('/')">/</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('sqrt')">√</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('cbrt')">∛</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('pow')">yˣ</button>
+                    </div>
+
+                    <!-- Row 6 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnNumeric" onclick="calcInput('4')">4</button>
+                        <button class="keyPad_btnNumeric" onclick="calcInput('5')">5</button>
+                        <button class="keyPad_btnNumeric" onclick="calcInput('6')">6</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('*')">*</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('sqr')">x²</button>
+                        <button class="keyPad_btnUnaryOp" onclick="calcOp('cube')">x³</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('root')">ˣ√y</button>
+
+                    </div>
+
+                    <!-- Row 7 -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnNumeric" onclick="calcInput('1')">1</button>
+                        <button class="keyPad_btnNumeric" onclick="calcInput('2')">2</button>
+                        <button class="keyPad_btnNumeric" onclick="calcInput('3')">3</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('-')">-</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcInput('.')">.</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('plusminus')">±</button>
+                        <button class="keyPad_btnCommand" onclick="calcOp('backspace')">←</button>
+
+                    </div>
+
+                    <!-- Row 8 (Zero spans two? No, looks uniform in TCS usually, but 0 often wide. Let's make it standard grid) -->
+                    <div class="key-row-tcs">
+                        <button class="keyPad_btnNumeric" onclick="calcInput('0')" style="width: 74px;">0</button>
+                        <button class="keyPad_btnBinaryOp" onclick="calcOp('+')">+</button>
+                        <button class="keyPad_btnCommand" id="keyPad_btnEnter" onclick="calcResult()"
+                            style="width: 74px;">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
