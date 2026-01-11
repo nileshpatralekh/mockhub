@@ -70,38 +70,46 @@ html {
 .top-header {
     background: #2d2d2d;
     color: white;
-    padding: 8px 15px;
+    padding: 0 15px;
     font-size: 14px;
     font-weight: bold;
-    height: 35px;
-    display: flex;
-    align-items: center;
-}
-
-/* 2. INFO BAR */
-.info-bar {
-    background: #fff;
-    border-bottom: 1px solid #ccc;
-    height: 45px;
+    height: 40px;
+    /* Increased slightly to fit controls */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
 }
 
-.exam-name {
-    font-weight: bold;
-    color: #fff;
-    background: #444;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
+/* Timer in Header */
 .timer-section {
-    font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
+    color: #fff;
 }
+
+/* Calculator Button in Header */
+.calc-btn.header-btn {
+    padding: 4px 10px;
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.calc-btn.header-btn:hover {
+    background-color: #666;
+}
+
+/* ... REMOVED INFO BAR ... */
+
+/* ... REMOVED CALCULATOR BAR ... */
 
 /* 3. SECTION TABS */
 .section-bar {
@@ -457,13 +465,8 @@ iframe {
     background: #286090;
 }
 
-/* Calculator Button Area */
-.calculator-bar {
-    background-color: #f0f0f0;
-    padding: 8px 20px;
-    border-bottom: 2px solid #ccc;
-    text-align: right;
-}
+/* Calculator Button Area - Consolidated into Header */
+
 
 .calc-btn {
     padding: 6px 15px;
